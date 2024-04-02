@@ -15,14 +15,14 @@
  * example:
  * arr =	4 6 7 16 2
  * lis =	1 2 3 4 1
- * prev =      -1 0 1 2 -1
+ * prev =	-1 0 1 2 -1
  * result =	4 6 7 16
 */
 
 typedef struct s_lis_wrap
 {
-	int	maxlen = 1;
-	int	maxindex = 0;
+	int	maxlen;
+	int	maxindex;
 	int	*arr;
 	int	*lis;
 	int	*prev;
