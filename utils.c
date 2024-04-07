@@ -60,3 +60,29 @@ int	ft_abs(int a)
 	else
 		return (a);
 }
+
+int get_min(t_list* list) {
+    int min_value = INT_MAX;
+
+    while (list != NULL) {
+        if ((int)(intptr_t)list->content < min_value) {
+            min_value = (int)(intptr_t)list->content;
+        }
+        list = list->next;
+    }
+
+    return min_value;
+}
+
+int get_max(t_list* list) {
+    int max_value = INT_MIN;
+
+    while (list != NULL) {
+        if ((int)(intptr_t)list->content > max_value) {
+            max_value = (int)(intptr_t)list->content;
+        }
+        list = list->next;
+    }
+
+    return max_value;
+}

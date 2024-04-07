@@ -66,29 +66,29 @@ int	*get_mov_b(t_stack *stack_b)
 }
 
 //function that return mov_a, an array of int that contains the number of rotation of stack_a that is used to put each value of stack_b in stack_a in increasing order
-//example : stack_a = 1 4 7; stack_b = -2 2 3 5 8 10; mov_a = 0 1 1 2 2 2;
+//example : stack_a = 1 4 7; stack_b = -2 2 3 5 8 10; mov_a = 0 1 1 2 3 3;
 int	*get_mov_a(t_stack *stack_a, t_stack *stack_b)
 {
 	int	*mov_a;
 	int	i;
-	t_list	*tmp;
-	t_list	*tmp2;
+	t_list	*tmp_a;
+	t_list	*tmp_b;
 
 	mov_a = (int *)malloc(sizeof(int) * ft_lstsize(stack_b->top));
 	if (!mov_a)
 		return (NULL);
-	i = 0;
-	tmp = stack_b->top;
-	while (tmp != NULL)
+	tmp_b = stack_b->top;
+	while (tmp_b != NULL)
 	{
-		tmp2 = stack_a->top;
-		while (tmp2 != NULL && (int)(intptr_t)tmp2->content < (int)(intptr_t)tmp->content)
+		tmp_a = stack_a->top;
+		i = 0;
+		while (tmp_a != NULL && (int)(intptr_t)tmp_a->content < (int)(intptr_t)tmp_b->content)
 		{
-			tmp2 = tmp2->next;
+			tmp_a = tmp_a->next;
 			i++;
 		}
 		mov_a[i] = i;
-		tmp = tmp->next;
+		tmp_b = tmp_b->next;
 	}
 	return (mov_a);
 }

@@ -26,170 +26,174 @@ générée récursivement la première LIS qu'on gardera et qu'on comparera à l
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <limits.h>
 
-typedef struct s_list {
-    struct s_list *next;
-    void *content;
-} t_list;
-
-typedef struct s_lis_wrap
+typedef struct s_list
 {
-        int     maxlen;
-        int     maxindex;
-        int     *arr;
-        int     *lis;
-        int     *prev;
-}       t_lis_wrap;
+	void			*content;
+	struct s_list	*next;
+}	t_list;
 
-void	convert_list_to_array(t_list *head, int *arr, int *length)
+typedef struct s_stack
 {
-	t_list	*current;
-	int	i;
+	t_list	*top;
+}	t_stack;
 
-	current = head;
-	i = 0;
-	while (current != NULL && i < *length)
+int	ft_lstsize(t_list *lst)
+{
+	int	size;
+
+	size = 0;
+	while (lst != NULL)
 	{
-		arr[i++] = (int)(intptr_t)current->content;
-		current = current->next;
+		lst = lst->next;
+		size++;
 	}
+	return (size);
 }
 
-int     ft_lstsize(t_list *lst)
-{
-        int     size;
+int get_max(t_list* list) {
+    int max_value = INT_MIN;
 
-        size = 0;
-        while (lst != NULL)
-        {
-                lst = lst->next;
-                size++;
+    while (list != NULL) {
+        if ((int)(intptr_t)list->content > max_value) {
+            max_value = (int)(intptr_t)list->content;
         }
-        return (size);
+        list = list->next;
+    }
+
+    return max_value;
 }
 
-void    ft_lstadd_back(t_list **lst, t_list *new)
-{
-        t_list  *last;
+int get_min(t_list* list) {
+    int min_value = INT_MAX;
 
-        if (*lst == NULL)
-                *lst = new;
-        else
+    while (list != NULL) {
+        if ((int)(intptr_t)list->content < min_value) {
+            min_value = (int)(intptr_t)list->content;
+        }
+        list = list->next;
+    }
+
+    return min_value;
+}
+
+void push(t_stack* stack, int value) {
+    // Create a new node
+    t_list* new_node = (t_list*)malloc(sizeof(t_list));
+    if (!new_node) {
+        fprintf(stderr, "Failed to allocate memory for new node.\n");
+        return;
+    }
+
+    // Set the new node's value
+    new_node->content = (void*)(intptr_t)value;
+
+    // Push the new node onto the stack
+    new_node->next = stack->top;
+    stack->top = new_node;
+}
+
+int mov_a_index_calc(int k, t_stack *stack_a)
+{
+    int size;
+    
+    size = ft_lstsize(stack_a->top);
+    if (k > size /2)
+    {
+        k = 2;
+    }
+}
+
+int get_index(t_list* list, int value) {
+    int index = 0;
+
+    while (list != NULL) {
+        if ((int)(intptr_t)list->content == value) {
+            return index;
+        }
+        index++;
+        list = list->next;
+    }
+
+    return -1; // Value not found
+}
+
+int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
+    int size_b = ft_lstsize(stack_b->top);
+    int* mov_a = (int*)malloc(size_b * sizeof(int));
+    t_list *temp_a = stack_a -> top;
+    if (!mov_a)
+        return NULL;
+    int i = 0;
+    int j = 0;
+    int min = get_max(temp_a);
+    while (stack_b->top != NULL)
+    {
+        j = 0;
+        temp_a = stack_a -> top;
+        while (temp_a->next != NULL)
         {
-                last = *lst;
-                while (last->next != NULL)
+            if ((int)(intptr_t)temp_a->content < (int)(intptr_t)stack_b->top->content)
+            {
+                if ((int)(intptr_t)stack_b->top->content < (int)(intptr_t)temp_a->next->content)
                 {
-                        last = last->next;
+                    mov_a[i] = j;
+                    break ;
                 }
-                last->next = new;
+            }
+            j++;
+            temp_a = temp_a->next;
         }
-}
-
-t_list  *ft_lstnew(void *content)
-{
-        t_list  *node;
-
-        node = malloc(sizeof(*node));
-        node -> content = content;
-        node -> next = NULL;
-        return (node);
-}
-
-
-void    construct_lis(t_lis_wrap *lis_wrap, int length)
-{
-        int     i;
-        int     j;
-
-        i = 0;
-        while (i < length)
+        if (temp_a->next == NULL)
         {
-                lis_wrap->lis[i] = 1;
-                lis_wrap->prev[i] = -1;
-                j = 0;
-                while (j < i)
-                {
-                        if (lis_wrap->arr[j] < lis_wrap->arr[i] && lis_wrap->lis[j] + 1 > lis_wrap->lis[i])
-                        {
-                                lis_wrap->lis[i] = lis_wrap->lis[j] + 1;
-                                lis_wrap->prev[i] = j;
-                        }
-                        j++;
-                }
-                if (lis_wrap->lis[i] > lis_wrap->maxlen)
-                {
-                        lis_wrap->maxlen = lis_wrap->lis[i];
-                        lis_wrap->maxindex = i;
-                }
-                i++;
+            mov_a[i] = get_index(stack_a->top, get_max(stack_a->top));
         }
+        i++;
+        stack_b->top =stack_b->top->next;
+    }
+    return mov_a;
 }
-
-int     *construct_result(t_lis_wrap *lis_wrap)
-{
-        int     *result;
-        int     index;
-
-        result = (int *)malloc(lis_wrap->maxlen *sizeof(int));
-        if (!result)
-                return (NULL);
-        index = lis_wrap->maxlen - 1;
-        while (lis_wrap->maxindex >= 0)
-        {
-                result[index] = lis_wrap->arr[lis_wrap->maxindex];
-                index--;
-                lis_wrap->maxindex = lis_wrap->prev[lis_wrap->maxindex];
-        }
-        return (result);
-}
-
-
-
-int     *LIS(t_list *head, int *length)
-{
-        t_lis_wrap      lis_wrap;
-        int             *result;
-
-        lis_wrap.arr = (int *)malloc(*length * sizeof(int)); //original list convert in array
-        lis_wrap.lis = (int *)malloc(*length * sizeof(int)); //size of LIS
-        lis_wrap.prev = (int *)malloc(*length * sizeof(int)); //previous index
-        lis_wrap.maxlen = 1;
-        lis_wrap.maxindex = 0;
-        if (lis_wrap.arr == NULL || lis_wrap.lis == NULL || lis_wrap.prev == NULL)
-                exit(EXIT_FAILURE);
-        convert_list_to_array(head, lis_wrap.arr, length);
-        construct_lis(&lis_wrap, *length);
-        *length = lis_wrap.maxlen;
-        result = construct_result(&lis_wrap);
-        if(!result)
-                return (NULL);
-        return (result);
-}
-
-
-
 
 int main() {
-    t_list* head = NULL;
-    ft_lstadd_back(&head, ft_lstnew(((void *)(intptr_t)2)));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)12));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)7));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)29));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)18));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)14));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)16));
+    t_stack stack_a;
+    t_stack stack_b;
 
-    int length = ft_lstsize(head);
-    int* lis = LIS(head, &length);
+    // Initialize stack_a and stack_b here
+    stack_a.top = NULL; // Assuming t_stack has a top member pointing to the top of the stack
+    stack_b.top = NULL; // Same assumption for stack_b
 
-    printf("Longest Increasing Subsequence: ");
-    for (int i = 0; i < length; i++) {
-        printf("%d ", lis[i]);
+    // Assuming you have a function to push elements onto the stack
+    // For example, let's push some elements onto stack_a and stack_b
+    // Assuming push function is defined elsewhere
+    push(&stack_a, 1);
+    push(&stack_a, 4);
+    push(&stack_a, 7);
+
+    push(&stack_b, -4);
+    push(&stack_b, 10);
+    push(&stack_b, 8);
+    push(&stack_b, 5);
+    push(&stack_b, 3);
+    push(&stack_b, 2);
+    push(&stack_b, -2);
+
+    int* mov_a = get_mov_a(&stack_a, &stack_b);
+
+    // Print the mov_a array
+    for (int i = 0; i < ft_lstsize(stack_b.top); i++) {
+        printf("%d ", mov_a[i]);
     }
-    printf("\n");
 
-    // Free allocated memory
-    free(lis);
-    
+    free(mov_a);
+
     return 0;
 }
+
+créer mov_a
+stack_a		stack_b
+1				0
+4				2
+7				5
+				8
+mov_a = 0 1 2 -1
