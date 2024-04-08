@@ -65,32 +65,59 @@ int	*get_mov_b(t_stack *stack_b)
 	return (mov_b);
 }
 
-//function that return mov_a, an array of int that contains the number of rotation of stack_a that is used to put each value of stack_b in stack_a in increasing order
-//example : stack_a = 1 4 7; stack_b = -2 2 3 5 8 10; mov_a = 0 1 1 2 3 3;
-int	*get_mov_a(t_stack *stack_a, t_stack *stack_b)
+int calc_mov_a(int i, int size)
 {
-	int	*mov_a;
-	int	i;
-	t_list	*tmp_a;
-	t_list	*tmp_b;
+    if (i == size)
+            return (0);
+    else if (i > size /2)
+        return (i - size);
+    else
+        return (i);
+}
 
-	mov_a = (int *)malloc(sizeof(int) * ft_lstsize(stack_b->top));
-	if (!mov_a)
-		return (NULL);
-	tmp_b = stack_b->top;
-	while (tmp_b != NULL)
-	{
-		tmp_a = stack_a->top;
-		i = 0;
-		while (tmp_a != NULL && (int)(intptr_t)tmp_a->content < (int)(intptr_t)tmp_b->content)
-		{
-			tmp_a = tmp_a->next;
-			i++;
-		}
-		mov_a[i] = i;
-		tmp_b = tmp_b->next;
-	}
-	return (mov_a);
+int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
+    int size_b = ft_lstsize(stack_b->top);
+    int* mov_a = (int*)malloc(size_b * sizeof(int));
+    t_list *temp_a = stack_a -> top;
+    t_list *temp_b = stack_b -> top;
+    if (!mov_a)
+        return NULL;
+    int i = 0;
+    int j = 0;
+    int min;
+    while (temp_b != NULL)
+    {
+        j = 1;
+        temp_a = stack_a -> top;
+        int max = get_min(stack_a -> top) - 1;
+        while (temp_a != NULL)
+        {
+            if ((int)(intptr_t)temp_a->content < (int)(intptr_t)temp_b->content && (int)(intptr_t)temp_a->content > max)
+            {
+                max = (int)(intptr_t)temp_a->content;
+                mov_a[i] = calc_mov_a(j, ft_lstsize(stack_a -> top));
+            }
+            j++;
+            temp_a = temp_a->next;
+        }
+        if (max == get_min(stack_a -> top) - 1)
+        {
+            int z = 0;
+            t_list *temp = stack_a->top;
+            while (temp != NULL)
+            {
+                if ((int)(intptr_t)temp->content == get_min(stack_a->top))
+                {
+                    mov_a[i] = calc_mov_a(z, ft_lstsize(stack_a -> top));;
+                }
+                z++;
+                temp = temp->next;
+            }
+        }
+        i++;
+        temp_b = temp_b->next;
+    }
+    return mov_a;
 }
 
 t_list	*sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)

@@ -32,6 +32,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
+	struct s_list   *prev;
 }	t_list;
 
 typedef struct s_stack
@@ -78,79 +79,76 @@ int get_min(t_list* list) {
     return min_value;
 }
 
-void push(t_stack* stack, int value) {
-    // Create a new node
-    t_list* new_node = (t_list*)malloc(sizeof(t_list));
-    if (!new_node) {
-        fprintf(stderr, "Failed to allocate memory for new node.\n");
-        return;
-    }
-
-    // Set the new node's value
-    new_node->content = (void*)(intptr_t)value;
-
-    // Push the new node onto the stack
-    new_node->next = stack->top;
-    stack->top = new_node;
-}
-
-int mov_a_index_calc(int k, t_stack *stack_a)
+t_list	*ft_lstnew(void *content)
 {
-    int size;
-    
-    size = ft_lstsize(stack_a->top);
-    if (k > size /2)
-    {
-        k = 2;
-    }
+	t_list	*node;
+
+	node = malloc(sizeof(*node));
+	node -> content = content;
+	node -> next = NULL;
+	node -> prev = NULL;
+	return (node);
 }
 
-int get_index(t_list* list, int value) {
-    int index = 0;
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*last;
 
-    while (list != NULL) {
-        if ((int)(intptr_t)list->content == value) {
-            return index;
-        }
-        index++;
-        list = list->next;
-    }
-
-    return -1; // Value not found
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		last = *lst;
+		while (last->next != NULL)
+		{
+			last = last->next;
+		}
+		new->prev = last->next;
+		last->next = new;
+	}
 }
 
 int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
     int size_b = ft_lstsize(stack_b->top);
     int* mov_a = (int*)malloc(size_b * sizeof(int));
     t_list *temp_a = stack_a -> top;
+    t_list *temp_b = stack_b -> top;
     if (!mov_a)
         return NULL;
     int i = 0;
     int j = 0;
-    int min = get_max(temp_a);
-    while (stack_b->top != NULL)
+    int min;
+    while (temp_b != NULL)
     {
-        j = 0;
+        j = 1;
         temp_a = stack_a -> top;
-        while (temp_a->next != NULL)
+        int max = get_min(stack_a -> top) - 1;
+        while (temp_a != NULL)
         {
-            if ((int)(intptr_t)temp_a->content < (int)(intptr_t)stack_b->top->content)
+            if ((int)(intptr_t)temp_a->content < (int)(intptr_t)temp_b->content && (int)(intptr_t)temp_a->content > max)
             {
-                if ((int)(intptr_t)stack_b->top->content < (int)(intptr_t)temp_a->next->content)
-                {
-                    mov_a[i] = j;
-                    break ;
-                }
+                max = (int)(intptr_t)temp_a->content;
+                mov_a[i] = j;
             }
             j++;
             temp_a = temp_a->next;
         }
-        if (temp_a->next == NULL)
+        if (max == get_min(stack_a -> top) - 1)
         {
-            mov_a[i] = get_index(stack_a->top, get_max(stack_a->top));
+            int z = 0;
+            t_list *temp = stack_a->top;
+            while (temp != NULL)
+            {
+                if ((int)(intptr_t)temp->content == get_min(stack_a->top))
+                {
+                    mov_a[i] = z;
+                }
+                z++;
+                temp = temp->next;
+            }
         }
         i++;
-        stack_b->top =stack_b->top->next;
+        temp_b = temp_b->next;
     }
     return mov_a;
 }
@@ -166,22 +164,22 @@ int main() {
     // Assuming you have a function to push elements onto the stack
     // For example, let's push some elements onto stack_a and stack_b
     // Assuming push function is defined elsewhere
-    push(&stack_a, 1);
-    push(&stack_a, 4);
-    push(&stack_a, 7);
+    ft_lstadd_back(&stack_a.top, ft_lstnew((void *)(intptr_t)4));
+    ft_lstadd_back(&stack_a.top, ft_lstnew((void *)(intptr_t)7));
+    ft_lstadd_back(&stack_a.top, ft_lstnew((void *)(intptr_t)1));
 
-    push(&stack_b, -4);
-    push(&stack_b, 10);
-    push(&stack_b, 8);
-    push(&stack_b, 5);
-    push(&stack_b, 3);
-    push(&stack_b, 2);
-    push(&stack_b, -2);
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)2));
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)3));
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)5));
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)6));
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)8));
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)19));
+    ft_lstadd_back(&stack_b.top, ft_lstnew((void *)(intptr_t)0));
 
     int* mov_a = get_mov_a(&stack_a, &stack_b);
 
     // Print the mov_a array
-    for (int i = 0; i < ft_lstsize(stack_b.top); i++) {
+    for (int i = 0; i < 7; i++) {
         printf("%d ", mov_a[i]);
     }
 
