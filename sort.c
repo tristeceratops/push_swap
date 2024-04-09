@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ewoillar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/03/29 16:37:01 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:56:45 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //function to check if the int value is the same than the head of the stack
 int	check_head_lis(t_stack *stack, int value)
 {
-	if (stack->top->content == value)
+	if ((int)(intptr_t)stack->top->content == value)
 		return (1);
 	return (0);
 }
@@ -84,7 +84,6 @@ int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
         return NULL;
     int i = 0;
     int j = 0;
-    int min;
     while (temp_b != NULL)
     {
         j = 1;
@@ -120,15 +119,56 @@ int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
     return mov_a;
 }
 
-t_list	*sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
+int *get_mov_c(int *mov_a, int *mov_b, int size)
 {
-	int * mov_a;
-	int * mov_b;
-	int * mov_c;
+	int	*mov_c;
+	int	i;
 
-	mov_a = (int *)malloc(sizeof(int) * ft_lstsize(stack_b->top));
-	mov_b = (int *)malloc(sizeof(int) * ft_lstsize(stack_b->top));
-	mov_c = (int *)malloc(sizeof(int) * ft_lstsize(stack_b->top));	
+	i = 0;
+	mov_c = malloc(sizeof(int) * size);
+	if (!mov_c)
+		return (NULL);
+	while (i < size)
+	{
+		if (mov_a[i] >= 0 && mov_b[i] >= 0)
+			mov_c[i] = ft_max(mov_a[i], mov_b[i]);
+		else if (mov_a[i] < 0 && mov_b[i] < 0)
+			mov_c[i] = ft_abs(ft_min(mov_a[i], mov_b[i]));
+		else
+			mov_c[i] = ft_abs(mov_a[i]) + ft_abs(mov_b[i]);
+		i++;
+	}
+	return (mov_c);
+}
+
+int	gmi_int(int *arr, int size)
+{
+	int	index;
+	int	min;
+	int	i;
+
+	i = 0;
+	index = 0;
+	min = arr[0];
+	while (i < size)
+	{
+		if (arr[i] < min)
+		{
+			index = i;
+			min = arr[i];
+		}
+		i++;
+	}
+	return (index);
+}
+
+void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
+{
+	int	*mov_a;
+	int	*mov_b;
+	int	*mov_c;
+	int	index;
+
 	push_lis(stack_a, stack_b, lis, lis_size);
 	while (stack_b->top != NULL)
 	{
@@ -139,18 +179,89 @@ t_list	*sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 		}
 		else
 		{
-			//mov_a = get_mov_a(stack_a, stack_b);
-			//mov_b = get_mov_b(stack_a, stack_b);
-			//if (mov_a[0] < mov_b[0])
-			//{
-			//	op_r(stack_a);
-			//	ft_printf("ra\n");
-			//}
-			//else
-			//{
-			//	op_r(stack_b);
-			//	ft_printf("rb\n");
-			//}
+			mov_a = get_mov_a(stack_a, stack_b);
+			mov_b = get_mov_b(stack_b);
+			mov_c = get_mov_c(mov_a, mov_b, ft_lstsize(stack_b->top));
+			index = gmi_int(mov_c, ft_lstsize(stack_b->top));
+			if (mov_a[index] >= 0 && mov_b[index] >= 0)
+			{
+				while (mov_a[index] > 0 && mov_b[index] > 0)
+				{
+					op_rr(stack_a, stack_b);
+					ft_printf("rr\n");
+					mov_a[index]--;
+					mov_b[index]--;
+				}
+				while (mov_a[index] > 0)
+				{
+					op_r(stack_a);
+					ft_printf("ra\n");
+					mov_a[index]--;
+				}
+				while (mov_b[index] > 0)
+				{
+					op_r(stack_b);
+					ft_printf("rb\n");
+					mov_b[index]--;
+				}
+			}
+			else if (mov_a[index] < 0 && mov_b[index] < 0)
+			{
+				while (mov_a[index] < 0 && mov_b[index] < 0)
+				{
+					op_rrr(stack_a, stack_b);
+					ft_printf("rrr\n");
+					mov_a[index]++;
+					mov_b[index]++;
+				}
+				while (mov_a[index] < 0)
+				{
+					op_rrs(stack_a);
+					ft_printf("rra\n");
+					mov_a[index]++;
+				}
+				while (mov_b[index] < 0)
+				{
+					op_rrs(stack_b);
+					ft_printf("rrb\n");
+					mov_b[index]++;
+				}
+			}
+			else
+			{
+				while (mov_a[index] != 0)
+				{
+					if (mov_a[index] > 0)
+					{
+						op_r(stack_a);
+						ft_printf("ra\n");
+						mov_a[index]--;
+					}
+					else
+					{
+						op_rrs(stack_a);
+						ft_printf("rra\n");
+						mov_a[index]++;
+					}
+				}
+				while (mov_b[index] != 0)
+				{
+					if (mov_b[index] > 0)
+					{
+						op_r(stack_b);
+						ft_printf("rb\n");
+						mov_b[index]--;
+					}
+					else
+					{
+						op_rrs(stack_b);
+						ft_printf("rrb\n");
+						mov_b[index]++;
+					}
+				}
+			}
+			op_p(stack_b, stack_a);
+			ft_printf("pa\n");
 		}
 	}
 }

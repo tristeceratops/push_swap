@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lis.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ewoillar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:17:13 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/03/29 15:13:36 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:49:03 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@
  * prev =	-1 0 1 2 -1
  * result =	4 6 7 16
 */
-
-typedef struct s_lis_wrap
-{
-	int	maxlen;
-	int	maxindex;
-	int	*arr;
-	int	*lis;
-	int	*prev;
-}	t_lis_wrap;
 
 void	construct_lis(t_lis_wrap *lis_wrap, int length)
 {
@@ -87,8 +78,8 @@ int	*LIS(t_list *head, int *length)
 	lis_wrap.maxindex = 0;
 	if (lis_wrap.arr == NULL || lis_wrap.lis == NULL || lis_wrap.prev == NULL)
 		exit(EXIT_FAILURE);
-	convert_list_to_array(head, lis_wrap.arr, length);
-	construct_lis(&lis_wrap, length);
+	convert_list_to_array(head, lis_wrap.arr, *length);
+	construct_lis(&lis_wrap, *length);
 	*length = lis_wrap.maxlen;
 	result = construct_result(&lis_wrap);
 	if(!result)

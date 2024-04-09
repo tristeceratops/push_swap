@@ -1,15 +1,8 @@
-LIBNAME := push_swap.a
 NAME := push_swap
 FLAGS := -Wall -Wextra -Werror
-FILES := 
-OBJ_FILES := $(FILES:.c=.o)
-LIBFT := libft
+FILES := lis.c main.c operators.c operators_next.c sort.c utils.c
 all: $(NAME)
 
-a:
-	make -C $(LIBFT)
-	cp libft/libft.a .
-	mv libft.a $(LIBNAME)
 clean:
 	make clean -C $(LIBFT)
 	rm -f $(OBJ_FILES)
@@ -18,8 +11,5 @@ fclean: clean
 	rm -f $(NAME)
 re: fclean all
 
-obj:
-	cc $(FLAGS) -c $(FILES)
-$(NAME): obj a
-	ar -rcs $(LIBNAME) $(OBJ_FILES)
-
+$(NAME):
+	cc $(FLAGS) $(FILES) libft/*.c libft/*.h -o $(NAME)
