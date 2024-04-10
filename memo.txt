@@ -11,11 +11,11 @@ ensuite pour chaque valeurs dans B, calculer deux valeurs :
 -et le nombre de rotation qu'il faut faire dans A pour pouvoir le placer au bon endroit (MB)
 
 à chaque itération de la boucle, on recalcules ces deux valeurs et on déplace de B à A le nombre qui créera le moins de mouvement
-	|	mov_b +		|	mov_b -
+	    |	mov_b +		        |	mov_b -
 --------|-----------------------|-----------------------
 mov_a +	|   max(mov_a, mov_b)	|   mov_a + |mov_b|
 --------|-----------------------|-----------------------
-mov_a -	|  |mov_a| + mov_b	|  |min(mov_a, mov_b)|
+mov_a -	|  |mov_a| + mov_b	    |  |min(mov_a, mov_b)|
 
 https://github.com/sisittu99/push_swap/blob/master/README_EN.md#choosing-the-best-number
 

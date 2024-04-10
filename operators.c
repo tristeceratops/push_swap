@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operators.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ewoillar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:59:30 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/03/22 14:49:52 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:53:29 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	op_s(t_stack *sta_a)
 	if (ft_lstsize(sta_a->top) <= 1)
 		return ;
 	lst = sta_a->top;
-	temp = (int)(intptr_t)lst->content;
+	temp = *(int *)lst->content;
 	lst->content = lst->next->content;
-	lst->next->content = (void *)(intptr_t)temp;
+	lst->next->content = (int *)&temp;
 }
 
 void	op_ss(t_stack *sta_a, t_stack *sta_b)

@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:25:10 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/10 11:29:25 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:51:38 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	convert_list_to_array(t_list *head, int *arr, int length)
 	i = 0;
 	while (current != NULL && i < length)
 	{
-		arr[i++] = (int)(intptr_t)current->content;
+		arr[i++] = *(int *)current->content;
 		current = current->next;
 	}
 }
@@ -65,8 +65,8 @@ int get_min_lst(t_list* list) {
     int min_value = INT_MAX;
 
     while (list != NULL) {
-        if ((int)(intptr_t)list->content < min_value) {
-            min_value = (int)(intptr_t)list->content;
+        if (*(int *)list->content < min_value) {
+            min_value = *(int *)list->content;
         }
         list = list->next;
     }
@@ -78,11 +78,28 @@ int get_max_lst(t_list* list) {
     int max_value = INT_MIN;
 
     while (list != NULL) {
-        if ((int)(intptr_t)list->content > max_value) {
-            max_value = (int)(intptr_t)list->content;
+        if (*(int *)list->content > max_value) {
+            max_value = *(int *)list->content;
         }
         list = list->next;
     }
 
     return max_value;
+}
+
+t_list  *ft_lstnew_int(int content)
+{
+	t_list	*new;
+	int		*content_ptr;
+
+	content_ptr = (int *)malloc(sizeof(int));
+	if (!content_ptr)
+		return (0);
+	*content_ptr = content;
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (0);
+	new->content = content_ptr;
+	new->next = NULL;
+	return (new);
 }

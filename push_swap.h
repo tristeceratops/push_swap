@@ -44,5 +44,6 @@ int		ft_abs(int a);
 int	*LIS(t_list *head, int *length);
 void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
 int get_min_lst(t_list* list);
+t_list *ft_lstnew_int(int content);
 
 #endif
