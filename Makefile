@@ -7,7 +7,7 @@ clean:
 	make clean -C $(LIBFT)
 	rm -f $(OBJ_FILES)
 fclean: clean
-	make fclean -C $(LIBFT)
+	make fclean -C $(name)
 	rm -f $(NAME)
 re: fclean all
 

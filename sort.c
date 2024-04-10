@@ -6,29 +6,34 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/09 15:56:45 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:37:21 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-//function to check if the int value is the same than the head of the stack
-int	check_head_lis(t_stack *stack, int value)
+int	check_lis(int *lis, int value, int lis_size)
 {
-	if ((int)(intptr_t)stack->top->content == value)
+	int	i;
+
+	i = 0;
+	while (lis[i] != value && i < lis_size)
+		i++;
+	if (lis[i] == value)
 		return (1);
 	return (0);
 }
 
 //function that push the value of a in b if the head content is not in lis
-void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
+void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lst_size, int lis_size)
 {
 	int	i;
 
 	i = 0;
-	while (i < lis_size)
+	
+	while (i < lst_size)
 	{
-		if (!check_head_lis(stack_a, lis[i]))
+		if (!check_lis(lis, (int)(intptr_t)stack_a->top->content, lis_size))
 		{
 			op_p(stack_a, stack_b);
 			ft_printf("pb\n");
@@ -37,8 +42,8 @@ void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 		{
 			op_r(stack_a);
 			ft_printf("ra\n");
-			i++;
 		}
+		i++;
 	}
 }
 
@@ -88,7 +93,7 @@ int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
     {
         j = 1;
         temp_a = stack_a -> top;
-        int max = get_min(stack_a -> top) - 1;
+        int max = get_min_lst(stack_a -> top) - 1;
         while (temp_a != NULL)
         {
             if ((int)(intptr_t)temp_a->content < (int)(intptr_t)temp_b->content && (int)(intptr_t)temp_a->content > max)
@@ -99,13 +104,13 @@ int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
             j++;
             temp_a = temp_a->next;
         }
-        if (max == get_min(stack_a -> top) - 1)
+        if (max == get_min_lst(stack_a -> top) - 1)
         {
             int z = 0;
             t_list *temp = stack_a->top;
             while (temp != NULL)
             {
-                if ((int)(intptr_t)temp->content == get_min(stack_a->top))
+                if ((int)(intptr_t)temp->content == get_min_lst(stack_a->top))
                 {
                     mov_a[i] = calc_mov_a(z, ft_lstsize(stack_a -> top));;
                 }
@@ -140,8 +145,8 @@ int *get_mov_c(int *mov_a, int *mov_b, int size)
 	}
 	return (mov_c);
 }
-
-int	gmi_int(int *arr, int size)
+//get index of minimal value in array
+int	get_mindex_arr(int *arr, int size)
 {
 	int	index;
 	int	min;
@@ -162,14 +167,30 @@ int	gmi_int(int *arr, int size)
 	return (index);
 }
 
+int get_mindex_lst(t_list* list) {
+	int index = 0;
+	int min = INT_MAX;
+	int i = 0;
+	while (list != NULL) {
+		if ((int)(intptr_t)list->content < min) {
+			min = (int)(intptr_t)list->content;
+			index = i;
+		}
+		list = list->next;
+		i++;
+	}
+	return index;
+}
+
 void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 {
 	int	*mov_a;
 	int	*mov_b;
 	int	*mov_c;
-	int	index;
-
-	push_lis(stack_a, stack_b, lis, lis_size);
+	int	index;	
+	
+	push_lis(stack_a, stack_b, lis, ft_lstsize(stack_a->top), lis_size);
+	ft_printf("end of push_lis\n");
 	while (stack_b->top != NULL)
 	{
 		if (ft_lstsize(stack_b->top) == 1)
@@ -182,7 +203,7 @@ void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 			mov_a = get_mov_a(stack_a, stack_b);
 			mov_b = get_mov_b(stack_b);
 			mov_c = get_mov_c(mov_a, mov_b, ft_lstsize(stack_b->top));
-			index = gmi_int(mov_c, ft_lstsize(stack_b->top));
+			index = get_mindex_arr(mov_c, ft_lstsize(stack_b->top));
 			if (mov_a[index] >= 0 && mov_b[index] >= 0)
 			{
 				while (mov_a[index] > 0 && mov_b[index] > 0)
@@ -262,6 +283,23 @@ void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 			}
 			op_p(stack_b, stack_a);
 			ft_printf("pa\n");
+		}
+	}
+	int mindex = get_mindex_lst(stack_a->top);
+	if (mindex > ft_lstsize(stack_a->top) / 2)
+	{
+		while ((int)(intptr_t)stack_a->top->content != get_min_lst(stack_a->top))
+		{
+			op_rrs(stack_a);
+			ft_printf("rra\n");
+		}
+	}
+	else
+	{
+		while ((int)(intptr_t)stack_a->top->content != get_min_lst(stack_a->top))
+		{
+			op_r(stack_a);
+			ft_printf("ra\n");
 		}
 	}
 }

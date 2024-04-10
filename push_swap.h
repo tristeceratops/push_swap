@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/09 15:48:04 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:28:58 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -43,6 +43,6 @@ int		ft_min(int a, int b);
 int		ft_abs(int a);
 int	*LIS(t_list *head, int *length);
 void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
-int get_min(t_list* list);
+int get_min_lst(t_list* list);
 
 #endif

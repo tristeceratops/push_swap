@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ewoillar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:25:10 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/03/29 15:23:15 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:29:25 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_abs(int a)
 		return (a);
 }
 
-int get_min(t_list* list) {
+int get_min_lst(t_list* list) {
     int min_value = INT_MAX;
 
     while (list != NULL) {
@@ -74,7 +74,7 @@ int get_min(t_list* list) {
     return min_value;
 }
 
-int get_max(t_list* list) {
+int get_max_lst(t_list* list) {
     int max_value = INT_MIN;
 
     while (list != NULL) {

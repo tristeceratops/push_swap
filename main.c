@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:31:24 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/09 16:29:25 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:40:48 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ int	main(int argc, char **argv)
     int i = 1;
     while (i < argc)
     {
-        ft_lstadd_back(&stack_a.top, ft_lstnew((void *)(intptr_t)(argv[i++])));
+        ft_lstadd_back(&stack_a.top, ft_lstnew((void *)(intptr_t)ft_atoi(argv[i++])));
     }
-    printf("stack A :");
-    //while loop print value in a
+    /*printf("stack A before sort:");
     t_list *tmp = stack_a.top;
     while (tmp != NULL)
     {
@@ -41,15 +40,40 @@ int	main(int argc, char **argv)
         tmp = tmp->next;
     }
     printf("\n");
+    printf("stack B before sort:");
+    tmp = stack_b.top;
+    while (tmp != NULL)
+    {
+        printf("%d ", (int)(intptr_t)tmp->content);
+        tmp = tmp->next;
+    }
+    printf("\n");*/
     lis_size = ft_lstsize(stack_a.top);
     lis = LIS(stack_a.top, &lis_size);
-    printf("LIS: ");
+    /*printf("LIS: ");
     for (int i = 0; i < lis_size; i++)
     {
         printf("%d ", lis[i]);
     }
-    printf("\n");
+    printf("\n");*/
     sort(&stack_a, &stack_b, lis, lis_size);
+    
+    /*printf("stack A after sort:");
+    tmp = stack_a.top;
+    while (tmp != NULL)
+    {
+        printf("%d ", (int)(intptr_t)tmp->content);
+        tmp = tmp->next;
+    }
+    printf("\n");
+    printf("stack B after sort:");
+    tmp = stack_b.top;
+    while (tmp != NULL)
+    {
+        printf("%d ", (int)(intptr_t)tmp->content);
+        tmp = tmp->next;
+    }
+    printf("\n");*/
     free(lis);
     free_list(stack_a.top);
     return (0);

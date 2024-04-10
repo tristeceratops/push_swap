@@ -53,7 +53,7 @@ int	ft_lstsize(t_list *lst)
 	return (size);
 }
 
-int get_max(t_list* list) {
+int get_max_lst(t_list* list) {
     int max_value = INT_MIN;
 
     while (list != NULL) {
@@ -66,7 +66,7 @@ int get_max(t_list* list) {
     return max_value;
 }
 
-int get_min(t_list* list) {
+int get_min_lst(t_list* list) {
     int min_value = INT_MAX;
 
     while (list != NULL) {
@@ -122,7 +122,7 @@ int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
     {
         j = 1;
         temp_a = stack_a -> top;
-        int max = get_min(stack_a -> top) - 1;
+        int max = get_min_lst(stack_a -> top) - 1;
         while (temp_a != NULL)
         {
             if ((int)(intptr_t)temp_a->content < (int)(intptr_t)temp_b->content && (int)(intptr_t)temp_a->content > max)
@@ -133,13 +133,13 @@ int* get_mov_a(t_stack* stack_a, t_stack* stack_b) {
             j++;
             temp_a = temp_a->next;
         }
-        if (max == get_min(stack_a -> top) - 1)
+        if (max == get_min_lst(stack_a -> top) - 1)
         {
             int z = 0;
             t_list *temp = stack_a->top;
             while (temp != NULL)
             {
-                if ((int)(intptr_t)temp->content == get_min(stack_a->top))
+                if ((int)(intptr_t)temp->content == get_min_lst(stack_a->top))
                 {
                     mov_a[i] = z;
                 }
