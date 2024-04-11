@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 12:48:38 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:48:44 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	*get_mov_b(t_stack *stack_b)
 	int		*mov_b;
 	int		i;
 	t_list	*tmp;
-
+	
 	mov_b = (int *)malloc(sizeof(int) * ft_lstsize(stack_b->top));
 	if (!mov_b)
 		return (NULL);
@@ -79,9 +79,8 @@ int	calc_mov_a(int i, int size)
 		return (i);
 }
 
-int	*get_mov_a(t_stack *stack_a, t_stack *stack_b)
+int	*get_mov_a(t_stack *stack_a, t_stack *stack_b, int size_b)
 {
-	int		size_b;
 	int		i;
 	int		j;
 	int		*mov_a;
@@ -91,14 +90,12 @@ int	*get_mov_a(t_stack *stack_a, t_stack *stack_b)
 	t_list	*temp_b;
 	t_list	*temp;
 
-	size_b = ft_lstsize(stack_b->top);
 	mov_a = (int *)malloc(size_b * sizeof(int));
 	temp_a = stack_a->top;
 	temp_b = stack_b->top;
 	if (!mov_a)
 		return (NULL);
 	i = 0;
-	j = 0;
 	while (temp_b != NULL)
 	{
 		j = 1;
@@ -122,9 +119,7 @@ int	*get_mov_a(t_stack *stack_a, t_stack *stack_b)
 			while (temp != NULL)
 			{
 				if (*(int *)temp->content == get_min_lst(stack_a->top))
-				{
 					mov_a[i] = calc_mov_a(z, ft_lstsize(stack_a -> top));
-				}
 				z++;
 				temp = temp->next;
 			}
@@ -211,7 +206,7 @@ void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 	push_lis(stack_a, stack_b, lis, lis_size);
 	while (stack_b->top != NULL)
 	{
-		mov_a = get_mov_a(stack_a, stack_b);
+		mov_a = get_mov_a(stack_a, stack_b, ft_lstsize(stack_b->top));
 		mov_b = get_mov_b(stack_b);
 		mov_c = get_mov_c(mov_a, mov_b, ft_lstsize(stack_b->top));
 		index = get_mindex_arr(mov_c, ft_lstsize(stack_b->top));
