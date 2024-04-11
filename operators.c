@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:59:30 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/10 13:53:29 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:03:40 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@ void	delete_node(t_list **head, void *value)
 
 	current = *head;
 	prev = NULL;
-
 	while (current != NULL && current->content != value)
 	{
 		prev = current;
 		current = current->next;
 	}
-
 	if (current != NULL)
 	{
 		if (prev == NULL)

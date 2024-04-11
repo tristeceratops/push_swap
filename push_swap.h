@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/10 15:30:41 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:49:39 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	convert_list_to_array(t_list *head, int *arr, int lengh);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 int		ft_abs(int a);
-int	*LIS(t_list *head, int *length);
-void sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
-int get_min_lst(t_list* list);
-t_list *ft_lstnew_int(int content);
+int		*lis_seq(t_list *head, int *length);
+void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
+int		get_min_lst(t_list *list);
+t_list	*ft_lstnew_int(int content);
 
 #endif

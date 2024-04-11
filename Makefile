@@ -1,6 +1,6 @@
 NAME := push_swap
 FLAGS := -Wall -Wextra -Werror
-FILES := lis.c main.c operators.c operators_next.c sort.c utils.c
+FILES := lis.c main.c operators.c operators_next.c sort.c utils.c utils_next.c
 OBJ := $(FILES:.c=.o)
 LIBFT := libft/
 LIBFT_LIB := libft.a

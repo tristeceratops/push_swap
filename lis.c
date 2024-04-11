@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:17:13 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/09 15:49:03 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:46:17 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ void	construct_lis(t_lis_wrap *lis_wrap, int length)
 	{
 		lis_wrap->lis[i] = 1;
 		lis_wrap->prev[i] = -1;
-		j = 0;
-		while (j < i)
+		j = -1;
+		while (++j < i)
 		{
-			if (lis_wrap->arr[j] < lis_wrap->arr[i] && lis_wrap->lis[j] + 1 > lis_wrap->lis[i])
+			if (lis_wrap->arr[j] < lis_wrap->arr[i] && \
+					lis_wrap->lis[j] + 1 > lis_wrap->lis[i])
 			{
 				lis_wrap->lis[i] = lis_wrap->lis[j] + 1;
 				lis_wrap->prev[i] = j;
 			}
-			j++;
 		}
 		if (lis_wrap->lis[i] > lis_wrap->maxlen)
 		{
@@ -53,7 +53,7 @@ int	*construct_result(t_lis_wrap *lis_wrap)
 	int	*result;
 	int	index;
 
-	result = (int *)malloc(lis_wrap->maxlen *sizeof(int));
+	result = (int *)malloc(lis_wrap->maxlen * sizeof (int));
 	if (!result)
 		return (NULL);
 	index = lis_wrap->maxlen - 1;
@@ -66,14 +66,14 @@ int	*construct_result(t_lis_wrap *lis_wrap)
 	return (result);
 }
 
-int	*LIS(t_list *head, int *length)
+int	*lis_seq(t_list *head, int *length)
 {
 	t_lis_wrap	lis_wrap;
-	int		*result;
+	int			*result;
 
-	lis_wrap.arr = (int *)malloc(*length * sizeof(int)); //original list convert in array
-	lis_wrap.lis = (int *)malloc(*length * sizeof(int)); //size of LIS
-	lis_wrap.prev = (int *)malloc(*length * sizeof(int)); //previous index
+	lis_wrap.arr = (int *)malloc(*length * sizeof(int));
+	lis_wrap.lis = (int *)malloc(*length * sizeof(int));
+	lis_wrap.prev = (int *)malloc(*length * sizeof(int));
 	lis_wrap.maxlen = 1;
 	lis_wrap.maxindex = 0;
 	if (lis_wrap.arr == NULL || lis_wrap.lis == NULL || lis_wrap.prev == NULL)
@@ -82,7 +82,7 @@ int	*LIS(t_list *head, int *length)
 	construct_lis(&lis_wrap, *length);
 	*length = lis_wrap.maxlen;
 	result = construct_result(&lis_wrap);
-	if(!result)
+	if (!result)
 		return (NULL);
 	return (result);
 }
@@ -102,7 +102,7 @@ int main() {
     ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)16));
 
     int length = ft_lstsize(head);
-    int* lis = LIS(head, &length);
+    int* lis = lis_seq(head, &length);
 
     printf("Longest Increasing Subsequence: ");
     for (int i = 0; i < length; i++) {
