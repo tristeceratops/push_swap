@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 14:48:44 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:08:20 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int	get_mindex_lst(t_list *list)
 	return (index);
 }
 
-void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
+/*void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 {
 	int	*mov_a;
 	int	*mov_b;
@@ -307,4 +307,4 @@ void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 			ft_printf("ra\n");
 		}
 	}
-}
+}*/

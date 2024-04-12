@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 12:49:39 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:58:38 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ typedef struct s_lis_wrap
 	int	*lis;
 	int	*prev;
 }	t_lis_wrap;
+
+typedef struct s_sort_wrap
+{
+	t_stack	*stack_a;
+	t_stack	*stack_b;
+	int		*m_a;
+	int		*m_b;
+	int		*m_c;
+	int		index;
+	int		mindex;
+}	t_sort_wrap;
 
 void	delete_node(t_list **head, void *value);
 void	op_s(t_stack *sta_a);
