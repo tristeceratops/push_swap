@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/12 15:58:38 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:48:11 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ typedef struct s_sort_wrap
 	int		index;
 	int		mindex;
 }	t_sort_wrap;
+
+typedef struct s_mov_wrap
+{
+	int		i;
+	int		j;
+	int		*mov_a;
+	int		max;
+	int		z;
+	t_list	*temp_a;
+	t_list	*temp_b;
+	t_list	*temp;
+}	t_mov_wrap;
 
 void	delete_node(t_list **head, void *value);
 void	op_s(t_stack *sta_a);
