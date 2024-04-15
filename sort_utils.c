@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:04:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 13:06:47 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:14:16 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	positiv_sort(t_sort_wrap *s_w)
 {
-	while (s_w->m_a[s_w->index] > 0 && s_w->m_b[s_w->index] >= 0)
+	while (s_w->m_a[s_w->index] > 0 && s_w->m_b[s_w->index] > 0)
 	{
 		op_rr(s_w->stack_a, s_w->stack_b);
 		ft_printf("rr\n");
