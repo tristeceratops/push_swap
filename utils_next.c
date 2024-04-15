@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_next..c                                      :+:      :+:    :+:   */
+/*   utils_next.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 11:08:50 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 11:20:17 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:21:59 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
+//get minimal value in list
 int	get_min_lst(t_list *list)
 {
 	int	min_value;
@@ -26,6 +26,7 @@ int	get_min_lst(t_list *list)
 	return (min_value);
 }
 
+//get maximal value in list
 int	get_max_lst(t_list *list)
 {
 	int	max_value;

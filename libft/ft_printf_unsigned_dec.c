@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_unsigned_dec.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ewoillar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 10:47:14 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/03/21 12:49:00 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:53:42 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_printundint(unsigned int u)
 	{
 		c = u + '0';
 		ft_putchar_fd(c, 1);
-	}	
+	}
 }
 
 int	ft_printf_unsigned_dec(va_list arg)

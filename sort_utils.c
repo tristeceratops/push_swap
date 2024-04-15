@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:04:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/12 14:06:59 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:08:12 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,15 @@ void	mix_sort(t_sort_wrap *s_w)
 		s_w->m_b[s_w->index]++;
 	}
 }
+
 void	min_loop(t_sort_wrap *s_w)
 {
+	int		min;
+
+	min = get_min_lst(s_w->stack_a->top);
 	if (s_w->mindex > ft_lstsize(s_w->stack_a->top) / 2)
 	{
-		while (*(int *)s_w->stack_a->top->content != get_min_lst(s_w->stack_a->top))
+		while (*(int *)s_w->stack_a->top->content != min)
 		{
 			op_rrs(s_w->stack_a);
 			ft_printf("rra\n");
@@ -97,7 +101,7 @@ void	min_loop(t_sort_wrap *s_w)
 	}
 	else
 	{
-		while (*(int *)s_w->stack_a->top->content != get_min_lst(s_w->stack_a->top))
+		while (*(int *)s_w->stack_a->top->content != min)
 		{
 			op_r(s_w->stack_a);
 			ft_printf("ra\n");
