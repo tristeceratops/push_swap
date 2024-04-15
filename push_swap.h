@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/12 17:48:11 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:57:42 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,14 @@ int		*lis_seq(t_list *head, int *length);
 void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
 int		get_min_lst(t_list *list);
 t_list	*ft_lstnew_int(int content);
+void	positiv_sort(t_sort_wrap *s_w);
+void	negativ_sort(t_sort_wrap *s_w);
+void	mix_sort(t_sort_wrap *s_w);
+void	min_loop(t_sort_wrap *s_w);
+void	mov_a_calc(t_mov_wrap *m_w, t_stack *stack_a);
+void	mov_a_loop(t_mov_wrap *m_w, t_stack *stack_a);
+int		get_mindex_arr(int *arr, int size);
+int		get_mindex_lst(t_list *list);
+void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
 
 #endif

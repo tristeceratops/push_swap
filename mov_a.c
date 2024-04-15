@@ -6,11 +6,21 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:26:47 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 11:17:12 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:08:58 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	calc_mov_a(int i, int size)
+{
+	if (i == size)
+		return (0);
+	else if (i > size / 2)
+		return (i - size);
+	else
+		return (i);
+}
 
 void	mov_a_calc(t_mov_wrap *m_w, t_stack *stack_a)
 {
@@ -51,20 +61,4 @@ void	mov_a_loop(t_mov_wrap *m_w, t_stack *stack_a)
 		m_w->i++;
 		m_w->temp_b = m_w->temp_b->next;
 	}
-}
-
-int	*get_mov_a(t_stack *stack_a, t_stack *stack_b, int size_b)
-{
-	t_mov_wrap	*m_w;
-
-	m_w->mov_a = (int *)malloc(size_b * sizeof(int));
-	if (!m_w->mov_a)
-		return (NULL);
-	m_w->temp_a = stack_a->top;
-	m_w->temp_b = stack_b->top;
-	if (!m_w->mov_a)
-		return (NULL);
-	m_w->i = 0;
-	mov_a_loop(m_w, stack_a);
-	return (m_w->mov_a);
 }

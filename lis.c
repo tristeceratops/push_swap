@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:17:13 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 10:46:17 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:57:54 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,43 @@
  * prev =	-1 0 1 2 -1
  * result =	4 6 7 16
 */
+
+int	check_lis(int *lis, int value, int lis_size)
+{
+	int	i;
+
+	i = 0;
+	while (i < lis_size && lis[i] != value)
+		i++;
+	if (i == lis_size)
+		return (0);
+	if (lis[i] == value)
+		return (1);
+	return (0);
+}
+
+void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
+{
+	int	i;
+	int	lst_size;
+
+	i = 0;
+	lst_size = ft_lstsize(stack_a->top);
+	while (i < lst_size)
+	{
+		if (!check_lis(lis, *(int *)stack_a->top->content, lis_size))
+		{
+			op_p(stack_a, stack_b);
+			ft_printf("pb\n");
+		}
+		else
+		{
+			op_r(stack_a);
+			ft_printf("ra\n");
+		}
+		i++;
+	}
+}
 
 void	construct_lis(t_lis_wrap *lis_wrap, int length)
 {
@@ -53,7 +90,7 @@ int	*construct_result(t_lis_wrap *lis_wrap)
 	int	*result;
 	int	index;
 
-	result = (int *)malloc(lis_wrap->maxlen * sizeof (int));
+	result = (int *)malloc(lis_wrap->maxlen * sizeof(int));
 	if (!result)
 		return (NULL);
 	index = lis_wrap->maxlen - 1;
@@ -84,34 +121,8 @@ int	*lis_seq(t_list *head, int *length)
 	result = construct_result(&lis_wrap);
 	if (!result)
 		return (NULL);
+	free(lis_wrap.arr);
+	free(lis_wrap.lis);
+	free(lis_wrap.prev);
 	return (result);
 }
-/*
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-
-int main() {
-    t_list* head = NULL;
-    ft_lstadd_back(&head, ft_lstnew(((void *)(intptr_t)8)));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)4));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)7));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)9));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)17));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)15));
-    ft_lstadd_back(&head, ft_lstnew((void *)(intptr_t)16));
-
-    int length = ft_lstsize(head);
-    int* lis = lis_seq(head, &length);
-
-    printf("Longest Increasing Subsequence: ");
-    for (int i = 0; i < length; i++) {
-        printf("%d ", lis[i]);
-    }
-    printf("\n");
-
-    // Free allocated memory
-    free(lis);
-
-    return 0;
-}*/

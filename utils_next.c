@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 11:08:50 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 11:21:59 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:12:20 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,47 @@ t_list	*ft_lstnew_int(int content)
 	new->content = content_ptr;
 	new->next = NULL;
 	return (new);
+}
+
+int	get_mindex_arr(int *arr, int size)
+{
+	int	index;
+	int	min;
+	int	i;
+
+	i = 0;
+	index = 0;
+	min = arr[0];
+	while (i < size)
+	{
+		if (arr[i] < min)
+		{
+			index = i;
+			min = arr[i];
+		}
+		i++;
+	}
+	return (index);
+}
+
+int	get_mindex_lst(t_list *list)
+{
+	int	index;
+	int	min;
+	int	i;
+
+	index = 0;
+	min = INT_MAX;
+	i = 0;
+	while (list != NULL)
+	{
+		if (*(int *)list->content < min)
+		{
+			min = *(int *)list->content;
+			index = i;
+		}
+		list = list->next;
+		i++;
+	}
+	return (index);
 }

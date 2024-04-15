@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:25:10 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 11:11:43 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:12:54 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_list(t_list *head)
 	{
 		temp = head;
 		head = head->next;
+		free(temp->content);
 		free(temp);
 	}
 }
