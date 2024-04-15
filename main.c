@@ -6,12 +6,31 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:31:24 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 15:41:06 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:20:39 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
+
+int	is_array_is_lst(int *arr, t_list *head, int length)
+{
+	t_list	*current;
+	int		i;
+
+	current = head;
+	i = 0;
+	while (current != NULL && i < length)
+	{
+		if (arr[i] != *(int *)current->content)
+			return (0);
+		current = current->next;
+		i++;
+	}
+	if (current != NULL || i < length)
+		return (0);
+	return (1);
+}
 
 int	ft_isint(char *str)
 {
@@ -76,6 +95,8 @@ int	main(int argc, char **argv)
 	}
 	lis_size = ft_lstsize(stack_a.top);
 	lis = lis_seq(stack_a.top, &lis_size);
+	if (is_array_is_lst(lis, stack_a.top, lis_size))
+		exit(0);
 	sort(&stack_a, &stack_b, lis, lis_size);
 	free(lis);
 	free_list(stack_a.top);
