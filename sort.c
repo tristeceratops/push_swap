@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 17:01:43 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:10:41 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	*get_mov_a(t_stack *stack_a, t_stack *stack_b, int size_b)
 	m_w->i = 0;
 	mov_a_loop(m_w, stack_a);
 	mov_a = m_w->mov_a;
+	free(m_w->mov_a);
 	free(m_w);
 	return (mov_a);
 }
@@ -84,10 +85,41 @@ void	free_sort(t_sort_wrap	*s_w)
 	free(s_w);
 }
 
+void	sort_3(t_stack *stack_a)
+{
+	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->content)
+	{
+		op_s(stack_a);
+		ft_printf("sa\n");
+	}
+	if (*(int *)stack_a->top->next->content > *(int *)stack_a->top->next->next->content)
+	{
+		op_rrs(stack_a);
+		ft_printf("rra\n");
+	}
+	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->next->content)
+	{
+		op_rrs(stack_a);
+		ft_printf("rra\n");
+	}
+	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->content)
+	{
+		op_s(stack_a);
+		ft_printf("sa\n");
+	}
+	
+}
+
+
 void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 {
 	t_sort_wrap	*s_w;
 
+	if (ft_lstsize(stack_a->top) <= 3)
+	{
+		sort_3(stack_a);
+		return ;
+	}
 	s_w = (t_sort_wrap *)malloc(sizeof(t_sort_wrap));
 	s_w->stack_a = stack_a;
 	s_w->stack_b = stack_b;
@@ -98,12 +130,9 @@ void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 		s_w->m_b = get_mov_b(stack_b);
 		s_w->m_c = get_mov_c(s_w->m_a, s_w->m_b, ft_lstsize(stack_b->top));
 		s_w->index = get_mindex_arr(s_w->m_c, ft_lstsize(stack_b->top));
-		if (s_w->m_a[s_w->index] >= 0 && s_w->m_b[s_w->index] >= 0)
-			positiv_sort(s_w);
-		else if (s_w->m_a[s_w->index] < 0 && s_w->m_b[s_w->index] < 0)
-			negativ_sort(s_w);
-		else
-			mix_sort(s_w);
+		positiv_sort(s_w);
+		negativ_sort(s_w);
+		mix_sort(s_w);
 		op_p(stack_b, stack_a);
 		ft_printf("pa\n");
 	}

@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:59:30 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/11 11:03:40 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:56:15 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	delete_node(t_list **head, void *value)
 
 void	op_s(t_stack *sta_a)
 {
-	int		temp;
+	void	*temp;
 	t_list	*lst;
 
 	if (ft_lstsize(sta_a->top) <= 1)
 		return ;
 	lst = sta_a->top;
-	temp = *(int *)lst->content;
+	temp = lst->content;
 	lst->content = lst->next->content;
-	lst->next->content = (int *)&temp;
+	lst->next->content = temp;
 }
 
 void	op_ss(t_stack *sta_a, t_stack *sta_b)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ewoillar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:31:38 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/03/21 12:53:39 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/16 10:42:17 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,5 @@ int		ft_printf_str(va_list arg);
 int		ft_printf_hex(va_list arg, char *base);
 int		ft_printf_ptr(va_list arg);
 int		print_hex(char *base, unsigned long long u);
+long	ft_atol(const char *nptr);
 #endif

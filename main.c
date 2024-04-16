@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:31:24 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 18:20:39 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:06:35 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,52 @@ int	ft_isint(char *str)
 int	value_check(char *value, t_list *head)
 {
 	t_list	*current;
-	int		i;
+	long		i;
+	int			j;
 
 	current = head;
 	if (!ft_isint(value))
 		return (0);
-	i = ft_atoi(value);
+	i = ft_atol(value);
+	if (i > INT_MAX || i < INT_MIN)
+		return(0);
+	j = ft_atoi(value);
 	while (current != NULL)
 	{
-		if (i == *(int *)current->content)
+		if (j == *(int *)current->content)
 			return (0);
 		current = current->next;
 	}
 	return (1);
 }
 
-void	error(void)
+void	error(int *lis, t_stack *stack_a, int argc, char **table)
 {
-	ft_printf("Error\n");
+	if (lis == NULL)
+		ft_printf("Error\n");
+	else
+	{
+		if (lis != NULL)
+			free(lis);
+	}
+	if (argc == 2)
+		free(table);
+	free_list(stack_a->top);
 	exit(0);
+}
+
+//free a char** table
+void	free_table(char **table)
+{
+	int	i;
+
+	i = 0;
+	while (table[i] != NULL)
+	{
+		free(table[i]);
+		i++;
+	}
+	free(table);
 }
 
 int	main(int argc, char **argv)
@@ -81,23 +108,31 @@ int	main(int argc, char **argv)
 	int		*lis;
 	int		lis_size;
 	int		i;
+	char	**table;
 
 	if (argc < 2)
 		return (0);
+	table = argv;
+	if (argc == 2)
+		table = ft_split(argv[1], ' ');
 	stack_a.top = NULL;
 	stack_b.top = NULL;
 	i = 1;
-	while (i < argc)
+	if (argc == 2)
+		i = 0;
+	while (table[i] != NULL)
 	{
-		if (!value_check(argv[i], stack_a.top))
-			error();
-		ft_lstadd_back(&stack_a.top, ft_lstnew_int(ft_atoi(argv[i++])));
+		if (!value_check(table[i], stack_a.top))
+			error(NULL, &stack_a, argc, table);
+		ft_lstadd_back(&stack_a.top, ft_lstnew_int(ft_atoi(table[i++])));
 	}
 	lis_size = ft_lstsize(stack_a.top);
 	lis = lis_seq(stack_a.top, &lis_size);
 	if (is_array_is_lst(lis, stack_a.top, lis_size))
-		exit(0);
+		error(lis, &stack_a, argc, table);
 	sort(&stack_a, &stack_b, lis, lis_size);
+	if (argc == 2)
+		free_table(table);
 	free(lis);
 	free_list(stack_a.top);
 	return (0);
