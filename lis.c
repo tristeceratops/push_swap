@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:17:13 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 16:57:54 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:36:55 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,14 @@ int	*lis_seq(t_list *head, int *length)
 	t_lis_wrap	lis_wrap;
 	int			*result;
 
+	head = create_sorted_list(head);
 	lis_wrap.arr = (int *)malloc(*length * sizeof(int));
 	lis_wrap.lis = (int *)malloc(*length * sizeof(int));
 	lis_wrap.prev = (int *)malloc(*length * sizeof(int));
 	lis_wrap.maxlen = 1;
 	lis_wrap.maxindex = 0;
 	if (lis_wrap.arr == NULL || lis_wrap.lis == NULL || lis_wrap.prev == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	convert_list_to_array(head, lis_wrap.arr, *length);
 	construct_lis(&lis_wrap, *length);
 	*length = lis_wrap.maxlen;

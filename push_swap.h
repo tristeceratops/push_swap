@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 12:57:42 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:36:11 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void	mov_a_loop(t_mov_wrap *m_w, t_stack *stack_a);
 int		get_mindex_arr(int *arr, int size);
 int		get_mindex_lst(t_list *list);
 void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
+t_list	*create_sorted_list(t_list *head);
 
 #endif
