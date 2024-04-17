@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:26:47 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/15 13:08:58 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:37:14 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ int	calc_mov_a(int i, int size)
 	else
 		return (i);
 }
-
 void	mov_a_calc(t_mov_wrap *m_w, t_stack *stack_a)
 {
 	if (*(int *)m_w->temp_a->content < *(int *)m_w->temp_b->content \
-			&& *(int *)m_w->temp_a->content > m_w->max)
+		&& *(int *)m_w->temp_a->content > m_w->max)
 	{
 		m_w->max = *(int *)m_w->temp_a->content;
 		m_w->mov_a[m_w->i] = calc_mov_a(m_w->j, ft_lstsize(stack_a -> top));

@@ -6,11 +6,27 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/16 16:10:41 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:24:19 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	*arrdup(int *array, int size)
+{
+	int	*res;
+	int	i;
+
+	res = malloc(sizeof(int) * size);
+	i = 0;
+	while (i < size)
+	{
+		res[i] = array[i];
+		i++;
+	}
+	return (res);
+	
+}
 
 int	*get_mov_b(t_stack *stack_b)
 {
@@ -49,7 +65,7 @@ int	*get_mov_a(t_stack *stack_a, t_stack *stack_b, int size_b)
 		return (NULL);
 	m_w->i = 0;
 	mov_a_loop(m_w, stack_a);
-	mov_a = m_w->mov_a;
+	mov_a = arrdup(m_w->mov_a, size_b);
 	free(m_w->mov_a);
 	free(m_w);
 	return (mov_a);
@@ -82,7 +98,6 @@ void	free_sort(t_sort_wrap	*s_w)
 	free(s_w->m_a);
 	free(s_w->m_b);
 	free(s_w->m_c);
-	free(s_w);
 }
 
 void	sort_3(t_stack *stack_a)
@@ -92,15 +107,18 @@ void	sort_3(t_stack *stack_a)
 		op_s(stack_a);
 		ft_printf("sa\n");
 	}
-	if (*(int *)stack_a->top->next->content > *(int *)stack_a->top->next->next->content)
+	if (stack_a->top->next->next != NULL)
 	{
-		op_rrs(stack_a);
-		ft_printf("rra\n");
-	}
-	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->next->content)
-	{
-		op_rrs(stack_a);
-		ft_printf("rra\n");
+		if (*(int *)stack_a->top->next->content > *(int *)stack_a->top->next->next->content)
+		{
+			op_rrs(stack_a);
+			ft_printf("rra\n");
+		}
+		if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->next->content)
+		{
+			op_rrs(stack_a);
+			ft_printf("rra\n");
+		}
 	}
 	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->content)
 	{
@@ -135,8 +153,9 @@ void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 		mix_sort(s_w);
 		op_p(stack_b, stack_a);
 		ft_printf("pa\n");
+		free_sort(s_w);
 	}
 	s_w->mindex = get_mindex_lst(stack_a->top);
 	min_loop(s_w);
-	free_sort(s_w);
+	free(s_w);
 }

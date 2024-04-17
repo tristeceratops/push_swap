@@ -6,12 +6,26 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:31:24 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/16 17:06:35 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:44:06 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
+
+//free a char** table
+void	free_table(char **table)
+{
+	int	i;
+
+	i = 0;
+	while (table[i] != NULL)
+	{
+		free(table[i]);
+		i++;
+	}
+	free(table);
+}
 
 int	is_array_is_lst(int *arr, t_list *head, int length)
 {
@@ -82,23 +96,9 @@ void	error(int *lis, t_stack *stack_a, int argc, char **table)
 			free(lis);
 	}
 	if (argc == 2)
-		free(table);
+		free_table(table);
 	free_list(stack_a->top);
 	exit(0);
-}
-
-//free a char** table
-void	free_table(char **table)
-{
-	int	i;
-
-	i = 0;
-	while (table[i] != NULL)
-	{
-		free(table[i]);
-		i++;
-	}
-	free(table);
 }
 
 int	main(int argc, char **argv)
