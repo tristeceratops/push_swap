@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/17 14:36:11 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:46:45 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,15 @@ typedef struct s_mov_wrap
 	t_list	*temp;
 }	t_mov_wrap;
 
+typedef struct s_main_wrap
+{
+	t_stack	stack_a;
+	t_stack	stack_b;
+	int		*lis;
+	int		lis_size;
+	char	**table;
+}	t_main_wrap;
+
 void	delete_node(t_list **head, void *value);
 void	op_s(t_stack *sta_a);
 void	op_ss(t_stack *sta_a, t_stack *sta_b);
@@ -79,5 +88,15 @@ int		get_mindex_arr(int *arr, int size);
 int		get_mindex_lst(t_list *list);
 void	push_lis(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size);
 t_list	*create_sorted_list(t_list *head);
-
+void	error(int *lis, t_stack *stack_a, int argc, char **table);
+int		value_check(char *value, t_list *head);
+int		ft_isint(char *str);
+int		is_array_is_lst(int *arr, t_list *head, int length);
+void	free_table(char **table);
+void	free_sort(t_sort_wrap	*s_w);
+void	sort_3(t_stack *stack_a);
+void	sort_loop(t_sort_wrap *s_w);
+int		*get_mov_a(t_stack *stack_a, t_stack *stack_b, int size_b);
+int		*get_mov_b(t_stack *stack_b);
+int		*get_mov_c(int *mov_a, int *mov_b, int size);
 #endif

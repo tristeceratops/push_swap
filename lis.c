@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 14:17:13 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/17 14:36:55 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:14:23 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,6 @@ int	*lis_seq(t_list *head, int *length)
 	free(lis_wrap.arr);
 	free(lis_wrap.lis);
 	free(lis_wrap.prev);
+	free_list(head);
 	return (result);
 }

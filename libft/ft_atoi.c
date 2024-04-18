@@ -6,14 +6,14 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:12:52 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/16 10:41:57 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:00:23 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 long	ft_atol(const char *nptr)
 {
 	long	result;
-	int	sign;
+	int		sign;
 
 	result = 0;
 	sign = 1;

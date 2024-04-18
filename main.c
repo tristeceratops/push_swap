@@ -5,135 +5,88 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 15:31:24 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/17 10:44:06 by ewoillar         ###   ########.fr       */
+/*   Created: 2024/04/18 14:25:29 by ewoillar          #+#    #+#             */
+/*   Updated: 2024/04/18 15:17:31 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
-//free a char** table
-void	free_table(char **table)
+t_list	*loop_sorted_list(t_list *list, int min_value, t_list *sorted_list)
 {
-	int	i;
+	t_list	*new_node;
 
-	i = 0;
-	while (table[i] != NULL)
+	while (*(int *)list->content != min_value)
 	{
-		free(table[i]);
-		i++;
+		new_node = ft_lstnew_int(*(int *)list->content);
+		if (!new_node)
+			return (NULL);
+		ft_lstadd_back(&sorted_list, new_node);
+		list = list->next;
 	}
-	free(table);
+	return (sorted_list);
 }
 
-int	is_array_is_lst(int *arr, t_list *head, int length)
+t_list	*create_sorted_list(t_list *head)
 {
-	t_list	*current;
-	int		i;
+	t_list	*sorted_list;
+	t_list	*list;
+	t_list	*new_node;
+	int		min_value;
 
-	current = head;
-	i = 0;
-	while (current != NULL && i < length)
+	sorted_list = NULL;
+	list = head;
+	min_value = get_min_lst(list);
+	while (*(int *)list->content != min_value)
+		list = list->next;
+	while (list != NULL)
 	{
-		if (arr[i] != *(int *)current->content)
-			return (0);
-		current = current->next;
-		i++;
+		new_node = ft_lstnew_int(*(int *)list->content);
+		if (!new_node)
+			return (NULL);
+		ft_lstadd_back(&sorted_list, new_node);
+		list = list->next;
 	}
-	if (current != NULL || i < length)
-		return (0);
-	return (1);
+	list = head;
+	sorted_list = loop_sorted_list(list, min_value, sorted_list);
+	return (sorted_list);
 }
 
-int	ft_isint(char *str)
+void	next_main(int argc, t_main_wrap s_w)
 {
-	int	i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	value_check(char *value, t_list *head)
-{
-	t_list	*current;
-	long		i;
-	int			j;
-
-	current = head;
-	if (!ft_isint(value))
-		return (0);
-	i = ft_atol(value);
-	if (i > INT_MAX || i < INT_MIN)
-		return(0);
-	j = ft_atoi(value);
-	while (current != NULL)
-	{
-		if (j == *(int *)current->content)
-			return (0);
-		current = current->next;
-	}
-	return (1);
-}
-
-void	error(int *lis, t_stack *stack_a, int argc, char **table)
-{
-	if (lis == NULL)
-		ft_printf("Error\n");
-	else
-	{
-		if (lis != NULL)
-			free(lis);
-	}
+	s_w.lis_size = ft_lstsize(s_w.stack_a.top);
+	s_w.lis = lis_seq(s_w.stack_a.top, &s_w.lis_size);
+	if (is_array_is_lst(s_w.lis, s_w.stack_a.top, s_w.lis_size))
+		error(s_w.lis, &s_w.stack_a, argc, s_w.table);
+	sort(&s_w.stack_a, &s_w.stack_b, s_w.lis, s_w.lis_size);
 	if (argc == 2)
-		free_table(table);
-	free_list(stack_a->top);
-	exit(0);
+		free_table(s_w.table);
+	free(s_w.lis);
+	free_list(s_w.stack_a.top);
 }
 
 int	main(int argc, char **argv)
 {
-	t_stack	stack_a;
-	t_stack	stack_b;
-	int		*lis;
-	int		lis_size;
-	int		i;
-	char	**table;
+	t_main_wrap	s_w;
+	int			i;
 
 	if (argc < 2)
 		return (0);
-	table = argv;
+	s_w.table = argv;
 	if (argc == 2)
-		table = ft_split(argv[1], ' ');
-	stack_a.top = NULL;
-	stack_b.top = NULL;
+		s_w.table = ft_split(argv[1], ' ');
+	s_w.stack_a.top = NULL;
+	s_w.stack_b.top = NULL;
 	i = 1;
 	if (argc == 2)
 		i = 0;
-	while (table[i] != NULL)
+	while (s_w.table[i] != NULL)
 	{
-		if (!value_check(table[i], stack_a.top))
-			error(NULL, &stack_a, argc, table);
-		ft_lstadd_back(&stack_a.top, ft_lstnew_int(ft_atoi(table[i++])));
+		if (!value_check(s_w.table[i], s_w.stack_a.top))
+			error(NULL, &s_w.stack_a, argc, s_w.table);
+		ft_lstadd_back(&s_w.stack_a.top, \
+			ft_lstnew_int(ft_atoi(s_w.table[i++])));
 	}
-	lis_size = ft_lstsize(stack_a.top);
-	lis = lis_seq(stack_a.top, &lis_size);
-	if (is_array_is_lst(lis, stack_a.top, lis_size))
-		error(lis, &stack_a, argc, table);
-	sort(&stack_a, &stack_b, lis, lis_size);
-	if (argc == 2)
-		free_table(table);
-	free(lis);
-	free_list(stack_a.top);
+	next_main(argc, s_w);
 	return (0);
 }

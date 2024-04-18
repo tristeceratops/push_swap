@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 11:08:50 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/17 14:34:36 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:43:53 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,36 +99,4 @@ int	get_mindex_lst(t_list *list)
 		i++;
 	}
 	return (index);
-}
-
-t_list	*create_sorted_list(t_list *head)
-{
-	t_list	*sorted_list;
-	t_list	*list;
-	t_list	*new_node;
-	int		min_value;
-
-	sorted_list = NULL;
-	list = head;
-	min_value = get_min_lst(list);
-	while (*(int *)list->content != min_value)
-		list = list->next;
-	while (list != NULL)
-	{
-		new_node = ft_lstnew_int(*(int *)list->content);
-		if (!new_node)
-			return NULL;
-		ft_lstadd_back(&sorted_list, new_node);
-		list = list->next;
-	}
-	list = head;
-	while (*(int *)list->content != min_value)
-	{
-		new_node = ft_lstnew_int(*(int *)list->content);
-		if (!new_node)
-			return NULL;
-		ft_lstadd_back(&sorted_list, new_node);
-		list = list->next;
-	}
-	return sorted_list;
 }

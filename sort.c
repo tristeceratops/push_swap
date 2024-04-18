@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/17 11:24:19 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:43:40 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	*arrdup(int *array, int size)
 		i++;
 	}
 	return (res);
-	
 }
 
 int	*get_mov_b(t_stack *stack_b)
@@ -93,42 +92,6 @@ int	*get_mov_c(int *mov_a, int *mov_b, int size)
 	return (mov_c);
 }
 
-void	free_sort(t_sort_wrap	*s_w)
-{
-	free(s_w->m_a);
-	free(s_w->m_b);
-	free(s_w->m_c);
-}
-
-void	sort_3(t_stack *stack_a)
-{
-	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->content)
-	{
-		op_s(stack_a);
-		ft_printf("sa\n");
-	}
-	if (stack_a->top->next->next != NULL)
-	{
-		if (*(int *)stack_a->top->next->content > *(int *)stack_a->top->next->next->content)
-		{
-			op_rrs(stack_a);
-			ft_printf("rra\n");
-		}
-		if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->next->content)
-		{
-			op_rrs(stack_a);
-			ft_printf("rra\n");
-		}
-	}
-	if (*(int *)stack_a->top->content > *(int *)stack_a->top->next->content)
-	{
-		op_s(stack_a);
-		ft_printf("sa\n");
-	}
-	
-}
-
-
 void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 {
 	t_sort_wrap	*s_w;
@@ -142,19 +105,7 @@ void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 	s_w->stack_a = stack_a;
 	s_w->stack_b = stack_b;
 	push_lis(stack_a, stack_b, lis, lis_size);
-	while (stack_b->top != NULL)
-	{
-		s_w->m_a = get_mov_a(stack_a, stack_b, ft_lstsize(stack_b->top));
-		s_w->m_b = get_mov_b(stack_b);
-		s_w->m_c = get_mov_c(s_w->m_a, s_w->m_b, ft_lstsize(stack_b->top));
-		s_w->index = get_mindex_arr(s_w->m_c, ft_lstsize(stack_b->top));
-		positiv_sort(s_w);
-		negativ_sort(s_w);
-		mix_sort(s_w);
-		op_p(stack_b, stack_a);
-		ft_printf("pa\n");
-		free_sort(s_w);
-	}
+	sort_loop(s_w);
 	s_w->mindex = get_mindex_lst(stack_a->top);
 	min_loop(s_w);
 	free(s_w);
