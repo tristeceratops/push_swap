@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:25:29 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/18 15:17:31 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:33:49 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	main(int argc, char **argv)
 		s_w.table = ft_split(argv[1], ' ');
 	s_w.stack_a.top = NULL;
 	s_w.stack_b.top = NULL;
+	if (*s_w.table == NULL)
+		error(NULL, &s_w.stack_a, argc, s_w.table);
 	i = 1;
 	if (argc == 2)
 		i = 0;

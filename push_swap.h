@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:07:17 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/18 15:46:45 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:21:43 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,7 @@ void	sort_loop(t_sort_wrap *s_w);
 int		*get_mov_a(t_stack *stack_a, t_stack *stack_b, int size_b);
 int		*get_mov_b(t_stack *stack_b);
 int		*get_mov_c(int *mov_a, int *mov_b, int size);
+int		get_second_min_lst(t_list *list);
+void	sort_5(t_stack *stack_a, t_stack *stack_b);
+
 #endif

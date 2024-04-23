@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:00:12 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/18 15:43:40 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:57:21 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,11 @@ void	sort(t_stack *stack_a, t_stack *stack_b, int *lis, int lis_size)
 	if (ft_lstsize(stack_a->top) <= 3)
 	{
 		sort_3(stack_a);
+		return ;
+	}
+	if (ft_lstsize(stack_a->top) > 3 && ft_lstsize(stack_a->top) <= 5)
+	{
+		sort_5(stack_a, stack_b);
 		return ;
 	}
 	s_w = (t_sort_wrap *)malloc(sizeof(t_sort_wrap));

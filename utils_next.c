@@ -6,7 +6,7 @@
 /*   By: ewoillar <ewoillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 11:08:50 by ewoillar          #+#    #+#             */
-/*   Updated: 2024/04/18 15:43:53 by ewoillar         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:28:43 by ewoillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,20 @@ int	get_min_lst(t_list *list)
 }
 
 //get maximal value in list
-int	get_max_lst(t_list *list)
+int	get_second_min_lst(t_list *list)
 {
-	int	max_value;
+	int	min_value;
+	int	res;
 
-	max_value = INT_MIN;
+	res = INT_MAX;
+	min_value = get_min_lst(list);
 	while (list != NULL)
 	{
-		if (*(int *)list->content > max_value)
-			max_value = *(int *)list->content;
+		if (*(int *)list->content < res && *(int *)list->content != min_value)
+			res = *(int *)list->content;
 		list = list->next;
 	}
-	return (max_value);
+	return (res);
 }
 
 t_list	*ft_lstnew_int(int content)
